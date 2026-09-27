@@ -1,0 +1,36 @@
+{
+  "name": "Olist Dark",
+  "dataColors": ["#22D3EE", "#8B5CF6", "#F472B6", "#34D399", "#FBBF24", "#60A5FA", "#F87171", "#A3E635"],
+  "background": "#131C31",
+  "foreground": "#F1F5F9",
+  "tableAccent": "#22D3EE",
+  "good": "#34D399",
+  "neutral": "#FBBF24",
+  "bad": "#F87171",
+  "textClasses": {
+    "callout": { "fontSize": 28, "fontFace": "Segoe UI Semibold", "color": "#F8FAFC" },
+    "title": { "fontSize": 13, "fontFace": "Segoe UI Semibold", "color": "#F1F5F9" },
+    "header": { "fontSize": 12, "fontFace": "Segoe UI Semibold", "color": "#F1F5F9" },
+    "label": { "fontSize": 10, "fontFace": "Segoe UI", "color": "#94A3B8" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [{ "show": true, "transparency": 100 }],
+        "border": [{ "show": false }],
+        "dropShadow": [{ "show": false }],
+        "title": [{ "fontColor": { "solid": { "color": "#F1F5F9" } }, "fontSize": 13 }],
+        "categoryAxis": [{ "labelColor": { "solid": { "color": "#94A3B8" } }, "gridlineShow": false }],
+        "valueAxis": [{ "labelColor": { "solid": { "color": "#94A3B8" } }, "gridlineColor": { "solid": { "color": "#1E2A45" } } }],
+        "labels": [{ "color": { "solid": { "color": "#E2E8F0" } } }],
+        "legend": [{ "labelColor": { "solid": { "color": "#94A3B8" } } }]
+      }
+    },
+    "page": {
+      "*": {
+        "outspace": [{ "color": { "solid": { "color": "#0B1120" } } }],
+        "background": [{ "transparency": 0 }]
+      }
+    }
+  }
+}
