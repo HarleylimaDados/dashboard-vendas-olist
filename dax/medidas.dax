@@ -1,0 +1,69 @@
+// =====================================================================
+// Medidas DAX: Dashboard de Vendas e Logística (Olist)
+// Autor: Harley Lima
+// Todas as medidas ficam na tabela _Medidas do arquivo .pbix
+// =====================================================================
+
+
+// ---------------------------------------------------------------------
+// VENDAS
+// ---------------------------------------------------------------------
+
+// Soma do valor dos itens vendidos (pedidos cancelados/indisponíveis
+// já foram removidos no Power Query)
+Faturamento =
+SUM ( fVendas[price] )
+
+// A tabela fato é por item, então conta pedidos distintos
+Pedidos =
+DISTINCTCOUNT ( fVendas[order_id] )
+
+'Ticket Médio' =
+DIVIDE ( [Faturamento], [Pedidos] )
+
+// customer_unique_id identifica a pessoa; customer_id muda a cada pedido.
+// O CALCULATE com fVendas conta só clientes que compraram no contexto filtrado
+Clientes =
+CALCULATE ( DISTINCTCOUNT ( dClientes[customer_unique_id] ), fVendas )
+
+'Frete Total' =
+SUM ( fVendas[freight_value] )
+
+
+// ---------------------------------------------------------------------
+// INTELIGÊNCIA DE TEMPO
+// ---------------------------------------------------------------------
+
+'Faturamento Mês Anterior' =
+CALCULATE ( [Faturamento], DATEADD ( dCalendario[Date], -1, MONTH ) )
+
+'Crescimento % MoM' =
+DIVIDE ( [Faturamento] - [Faturamento Mês Anterior], [Faturamento Mês Anterior] )
+
+
+// ---------------------------------------------------------------------
+// LOGÍSTICA E SATISFAÇÃO
+// Nota e prazo são informações do PEDIDO, mas a fVendas é por ITEM.
+// Uma média simples contaria a mesma nota várias vezes em pedidos com
+// mais de um item. Por isso as medidas iteram sobre os pedidos distintos
+// e pegam um único valor por pedido.
+// ---------------------------------------------------------------------
+
+'Nota Média' =
+AVERAGEX (
+    VALUES ( fVendas[order_id] ),
+    CALCULATE ( MAX ( fVendas[Nota] ) )
+)
+
+'Prazo Médio Entrega (Dias)' =
+AVERAGEX (
+    VALUES ( fVendas[order_id] ),
+    CALCULATE ( MAX ( fVendas[Dias Entrega] ) )
+)
+
+// Pedidos entregues até a data estimada ÷ pedidos já entregues
+'% Entregas no Prazo' =
+DIVIDE (
+    CALCULATE ( [Pedidos], fVendas[Status Entrega] = "No Prazo" ),
+    CALCULATE ( [Pedidos], fVendas[Status Entrega] <> "Não Entregue" )
+)
