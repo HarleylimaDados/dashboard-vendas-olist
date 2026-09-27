@@ -58,7 +58,7 @@ Prazo de entrega, % de entregas no prazo e o impacto direto na nota do cliente, 
 - Montagem da tabela fato **`fVendas`** no nível de **item de pedido**, unindo pedidos, itens e avaliações.
 - Remoção de pedidos **cancelados e indisponíveis**, para o faturamento refletir só vendas efetivas.
 - Tratamento de categorias vazias: células com texto vazio (não `null`) substituídas por **"Sem Categoria"**, usando *coincidir com todo o conteúdo da célula*.
-- Colunas de apoio: **Dias Entrega** (compra → entrega) e comparação com a data estimada, para medir entregas no prazo.
+- Colunas de apoio: **Dias Entrega** (compra → entrega) e **Status Entrega** (classifica o pedido como "No Prazo", atrasado ou "Não Entregue", comparando com a data estimada).
 
 ### 2. Modelagem (esquema estrela)
 
@@ -76,6 +76,8 @@ Prazo de entrega, % de entregas no prazo e o impacto direto na nota do cliente, 
 Todos os relacionamentos são **1 : * com filtro em direção única**.
 
 ### 3. Medidas DAX
+
+Código completo e comentado em [`dax/medidas.dax`](dax/medidas.dax).
 
 | Medida | O que calcula |
 |---|---|
@@ -110,6 +112,7 @@ Os dados já estão importados no arquivo, então não é preciso baixar o datas
 ```
 ├── dashboard-vendas-olist.pbix   # arquivo do Power BI
 ├── imagens/                      # prints das páginas, modelo e GIF de demonstração
+├── dax/medidas.dax               # todas as medidas DAX, comentadas
 ├── design/
 │   ├── tema_olist_dark.json      # tema customizado do Power BI
 │   └── fundos/                   # imagens de fundo das 3 páginas
